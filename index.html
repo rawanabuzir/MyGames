@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Games</title>
+    <link rel="stylesheet" href="./assets/style/index.css" type="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ebc7c797;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .center-table {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+        
+        .cards-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .card {
+            width: 300px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .card h3,
+        .card p {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <center>
+        <p style="font-size: 35px; color: #222020;">My Games: </p>
+    </center> <br> <br> <br> <br>
+    <div class="center-table">
+        <table>
+            <tr>
+                <td>
+                    <div class="cards-container">
+                        <div class="card" onclick="navigateToPage('./pages/Game5.html')">
+                            <img src="./assets/image/img1.png" alt="img1">
+                            <h3>Tic-Tac-Toe Game</h3>
+                            <p>Tic-Tac-Toe Game</p>
+                        </div>
+
+                        <div class="card" onclick="navigateToPage('./pages/Game2.html')">
+                            <img src="./assets/image/img4.png" alt="">
+                            <h3> Catch The emoji</h3>
+                            <p> Catch The emoji</p>
+                        </div>
+
+                        <div class="card" onclick="navigateToPage('./pages/Game3.html')">
+                            <img src="./assets/image/img3.png" alt="الصورة 4">
+                            <h3>Guess the Character Game</h3>
+                            <p>Guess an anime character:</p>
+
+
+                        </div>
+
+                        <div class="card" onclick="navigateToPage('./pages/Game4.html')">
+                            <img src="./assets/image/new1.png" alt="الصورة 5">
+                            <h3>Hangman Game
+                            </h3>
+                            <p> Guess the word:</p>
+                        </div>
+
+                        <div class="card" onclick="navigateToPage('./pages/Game1.html')">
+                            <img src="./assets/image/new3.png" alt="الصورة 6">
+                            <h3>
+                                Word Scramble Game
+
+
+                            </h3>
+                            <p> Unscramble the word:</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function navigateToPage(pageUrl) {
+            window.location.href = pageUrl;
+        }
+    </script>
+</body>
+
+</html>

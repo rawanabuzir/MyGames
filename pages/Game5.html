@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tic-Tac-Toe Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://img.freepik.com/free-vector/set-torii-gates-water_52683-44986.jpg');
+            /* Replace with the path to your background image */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            width: 300px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Change the alpha value to adjust the transparency */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            /* Center the card content */
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .board {
+            display: table;
+            margin: 0 auto;
+        }
+        
+        .board .cell {
+            width: 80px;
+            height: 80px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 36px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        
+        .board .cell:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .board .cell:not(:last-child) {
+            margin-right: 5px;
+        }
+        
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Tic-Tac-Toe Game</h1>
+        <div class="board"></div>
+        <div class="message"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const board = document.querySelector(".board");
+            const message = document.querySelector(".message");
+            let currentPlayer = "X";
+            let gameActive = true;
+
+            // Game Board
+            const cells = [
+                "", "", "",
+                "", "", "",
+                "", "", ""
+            ];
+
+            // Winning Conditions
+            const winConditions = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            // Render the Game Board
+            const renderBoard = () => {
+                board.innerHTML = "";
+                const table = document.createElement("table");
+                const rowSize = Math.sqrt(cells.length);
+
+                for (let i = 0; i < rowSize; i++) {
+                    const row = document.createElement("tr");
+                    for (let j = 0; j < rowSize; j++) {
+                        const cellIndex = i * rowSize + j;
+                        const cell = document.createElement("td");
+                        cell.classList.add("cell");
+                        cell.textContent = cells[cellIndex];
+                        cell.addEventListener("click", () => handleCellClick(cellIndex));
+                        row.appendChild(cell);
+                    }
+                    table.appendChild(row);
+                }
+
+                board.appendChild(table);
+            };
+
+            // Handle Cell Click Event
+            const handleCellClick = (index) => {
+                if (cells[index] === "" && gameActive) {
+                    cells[index] = currentPlayer;
+                    renderBoard();
+                    checkWin();
+                    checkDraw();
+                    togglePlayer();
+                    makeAIMove();
+                }
+            };
+
+            // Toggle Current Player
+            const togglePlayer = () => {
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+            };
+
+            // Check for a Win
+            const checkWin = () => {
+                for (let i = 0; i < winConditions.length; i++) {
+                    const [a, b, c] = winConditions[i];
+                    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+                        gameActive = false;
+                        message.textContent = `Player ${cells[a]} wins!`;
+                        return;
+                    }
+                }
+            };
+
+            // Check for a Draw
+            const checkDraw = () => {
+                if (!cells.includes("") && gameActive) {
+                    gameActive = false;
+                    message.textContent = "It's a draw!";
+                }
+            };
+
+            // Make AI Move
+            const makeAIMove = () => {
+                if (gameActive && currentPlayer === "O") {
+                    const emptyCells = cells.reduce((acc, value, index) => {
+                        if (value === "") {
+                            acc.push(index);
+                        }
+                        return acc;
+                    }, []);
+                    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                    const aiMoveIndex = emptyCells[randomIndex];
+                    cells[aiMoveIndex] = currentPlayer;
+                    renderBoard();
+                    checkWin();
+                    checkDraw();
+                    togglePlayer();
+                }
+            };
+
+            // Initial Render
+            renderBoard();
+        });
+    </script>
+</body>
+
+</html>
