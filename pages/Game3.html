@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Guess the Character Game</title>
+    <style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url('https://media.discordapp.net/attachments/1008571061119483984/1115188425369325609/Gelik123_a_clearing_in_the_park_a_straight_view_high-quality_an_3d737ddc-ff61-4d22-a3ba-1ad61847e21f.png?width=1033&height=578');
+        /* Replace with the path to your background image */
+        background-size: cover;
+        background-position: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        width: 500px;
+        padding: 40px;
+        background-color: rgba(255, 255, 255, 0.8);
+        /* Change the alpha value to adjust the transparency */
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        /* Center the card content */
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    button {
+        display: block;
+        width: 95%;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #6ECB71D0;
+        width: 50%;
+        color: #fff;
+        align-self: center;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+
+    #result {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #hint {
+        font-style: italic;
+        color: #777;
+        margin-bottom: 5px;
+    }
+
+    #hint2 {
+        margin-top: 10px;
+        font-size: 18px;
+        font-style: italic;
+        color: #777;
+    }
+
+    #hint3 {
+        margin-top: 10px;
+        font-size: 18px;
+        font-style: italic;
+        color: #777;
+    }
+
+    #hint4 {
+        margin-top: 10px;
+        font-size: 18px;
+        font-style: italic;
+        color: #777;
+    }
+
+    #hint5 {
+        margin-top: 10px;
+        font-size: 18px;
+        font-style: italic;
+        color: #777;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Guess the Character Game</h1>
+        <br> <br>
+        <p>Guess an anime character:</p>
+        <br>
+        <input type="text" id="guess-input">
+        <center><button id="guess-btn" onclick="checkGuess()">Guess</button></center>
+        <br>
+        <p id="result"></p>
+        <p id="hint"></p>
+        <p id="hint2"></p>
+        <p id="hint3"></p>
+        <p id="hint4"></p>
+        <p id="hint5"></p>
+    </div>
+
+    <script>
+    var characters = [{
+            name: "Naruto Uzumaki",
+            anime: "Naruto",
+            hairColor: "blonde"
+        },
+        {
+            name: "Monkey D. Luffy",
+            anime: "One Piece",
+            hairColor: "black"
+        },
+        {
+            name: "Ichigo Kurosaki",
+            anime: "Bleach",
+            hairColor: "orange"
+        },
+        {
+            name: "Goku",
+            anime: "Dragon Ball Z",
+            hairColor: "black"
+        },
+        {
+            name: "Edward Elric",
+            anime: "Fullmetal Alchemist",
+            hairColor: "blonde"
+        },
+        // Add more characters here...
+    ];
+
+    var guessInput = document.getElementById("guess-input");
+    var guessButton = document.getElementById("guess-btn");
+    var resultElement = document.getElementById("result");
+    var hintElement = document.getElementById("hint");
+    var hint2Element = document.getElementById("hint2");
+    var hint3Element = document.getElementById("hint3");
+    var hint4Element = document.getElementById("hint4");
+    var hint5Element = document.getElementById("hint5");
+
+    // Generate a random index for selecting a character
+    var randomIndex = Math.floor(Math.random() * characters.length);
+
+    // Get the selected character and hints
+    var selectedCharacter = characters[randomIndex].name;
+    var selectedHint = 'Hint 1: From the anime "' + characters[randomIndex].anime + '"';
+    var firstLetterHint = 'Hint 2: The first letter of the character\'s name is "' + selectedCharacter[0] + '"';
+    var randomLetterHint = 'Hint 3: A random letter from the character\'s name is "' + getRandomLetter(
+        selectedCharacter) + '"';
+    var numLettersHint = 'Hint 4: The character\'s name has ' + selectedCharacter.length + ' letters';
+    var hairColorHint = 'Hint 5: The character has ' + characters[randomIndex].hairColor + ' hair';
+
+    // Display the hints
+    hintElement.innerHTML = selectedHint;
+    hint2Element.textContent = firstLetterHint;
+    hint3Element.textContent = randomLetterHint;
+    hint4Element.textContent = numLettersHint;
+    hint5Element.textContent = hairColorHint;
+
+    // Function to get a random letter from a string
+    function getRandomLetter(str) {
+        var randomIndex = Math.floor(Math.random() * str.length);
+        return str[randomIndex];
+    }
+
+    // Function to check the user's guess
+    function checkGuess() {
+        var userGuess = guessInput.value.toLowerCase();
+
+        if (userGuess === selectedCharacter.toLowerCase()) {
+            resultElement.textContent = "Correct! The character is " + selectedCharacter;
+            guessButton.disabled = true;
+            guessInput.disabled = true;
+        } else {
+            resultElement.textContent = "Incorrect! Try again.";
+        }
+    }
+
+    guessButton.addEventListener("click", checkGuess);
+    </script>
+</body>
+
+</html>

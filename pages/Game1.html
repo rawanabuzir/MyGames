@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Word Scramble Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://i.pinimg.com/736x/95/b7/43/95b743fbe5bf5dc605b1ee8c7768ab4f.jpg');
+            /* Replace with the path to your background image */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            width: 500px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Change the alpha value to adjust the transparency */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            /* Center the card content */
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        p {
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"],
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        
+        #result {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        #scrambled-word {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Word Scramble Game</h1>
+        <br>
+        <p>Unscramble the word:</p>
+        <p id="scrambled-word"></p>
+        <br>
+        <input type="text" id="guess-input">
+        <button id="guess-btn">Submit</button>
+        <br>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        var words = [
+            "apple",
+            "banana",
+            "orange",
+            "grape",
+            "melon",
+            // Add more words here...
+        ];
+
+        var guessInput = document.getElementById("guess-input");
+        var guessButton = document.getElementById("guess-btn");
+        var resultElement = document.getElementById("result");
+        var scrambledWordElement = document.getElementById("scrambled-word");
+
+        // Generate a random index for selecting a word
+        var randomIndex = Math.floor(Math.random() * words.length);
+
+        // Get the selected word and scramble it
+        var selectedWord = words[randomIndex];
+        var scrambledWord = scrambleWord(selectedWord);
+
+        // Display the scrambled word
+        scrambledWordElement.textContent = scrambledWord;
+
+        // Function to scramble a word
+        function scrambleWord(word) {
+            var shuffledLetters = word.split('').sort(function() {
+                return 0.5 - Math.random();
+            }).join('');
+
+            // Ensure the scrambled word is different from the original word
+            if (shuffledLetters === word) {
+                return scrambleWord(word);
+            }
+
+            return shuffledLetters;
+        }
+
+        // Function to check the user's guess
+        function checkGuess() {
+            var userGuess = guessInput.value.toLowerCase();
+
+            if (userGuess === selectedWord) {
+                resultElement.textContent = "Correct! The word is " + selectedWord;
+                guessButton.disabled = true;
+                guessInput.disabled = true;
+            } else {
+                resultElement.textContent = "Incorrect! Try again.";
+            }
+        }
+
+        guessButton.addEventListener("click", checkGuess);
+    </script>
+</body>
+
+</html>

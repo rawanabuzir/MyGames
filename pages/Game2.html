@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Falling Emojis Game</title>
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url('https://marketplace.canva.com/EAFJebotzdY/1/0/1600w/canva-beige-floral-minimalist-linktree-background-Jr6vl3hxUDw.jpg');
+        /* Add the path to your background image */
+        background-size: cover;
+    }
+
+    canvas {
+        border: 1px solid #999;
+    }
+    </style>
+</head>
+
+<body><canvas id="gameCanvas" width="1000" height="600"></canvas>
+    <script>
+    // Get the canvas element
+    var canvas = document.getElementById('gameCanvas');
+    var context = canvas.getContext('2d');
+
+    // Basket properties
+    var basketWidth = 80;
+    var basketHeight = 50;
+    var basketX = canvas.width / 2 - basketWidth / 2;
+    var basketY = canvas.height - basketHeight;
+    var basketSpeed = 10;
+
+    // Falling emojis properties
+    var emojiSize = 30;
+    var emojiSpeed = 5;
+    var emojis = ['😊', '🥳', '😻', '🌟', '🐼', '🍕', '🎉', '🐶', '🍦', '🌸', '🦄', '🍩', '❤️', '🎈', '🌺', '🍓',
+        '🐱', '🚀', '🌈', '🍔', '🍭', '🐠', '🎸', '🌼', '🍒', '🐨', '🏀', '🌞', '🍎', '🐰', '🎁', '🌻', '🍇', '🦁',
+        '🏓', '⭐️', '🍟', '🍦', '🦋', '🎡', '🍉', '🐻', '⚽️', '🌙', '🤪', '🍋', '🐷', '🎮', '🌷', '🍍'
+    ]; // Add more emojis here
+    //.../ Add more emojis here
+    var currentEmoji = emojis[0];
+    var emojiX = Math.random() * (canvas.width - 2 * emojiSize) + emojiSize;
+    var emojiY = 0;
+
+    // Score
+    var score = 0;
+
+    // Keyboard controls
+    var leftPressed = false;
+    var rightPressed = false;
+
+    document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener('keyup', keyUpHandler);
+
+    function keyDownHandler(event) {
+        if (event.keyCode === 37) {
+            leftPressed = true;
+        } else if (event.keyCode === 39) {
+            rightPressed = true;
+        }
+    }
+
+    function keyUpHandler(event) {
+        if (event.keyCode === 37) {
+            leftPressed = false;
+        } else if (event.keyCode === 39) {
+            rightPressed = false;
+        }
+    }
+
+    function drawBasket() {
+        context.font = basketHeight + 'px Arial';
+        // Basket properties
+        var basketWidth = 200;
+        // var basketHeight = 50;
+        //...
+
+        context.fillStyle = 'blue';
+        context.fillText('🥅', basketX, basketY + basketHeight);
+    }
+
+    function drawEmoji() {
+        context.font = emojiSize + 'px Arial';
+        context.fillStyle = 'yellow';
+        context.fillText(currentEmoji, emojiX - emojiSize / 2, emojiY + emojiSize / 2);
+    }
+
+    function drawScore() {
+        context.font = '24px Arial';
+        context.fillStyle = 'black';
+        context.fillText('Score: ' + score, 20, 40);
+    }
+
+    function update() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawBasket();
+        drawEmoji();
+        drawScore();
+
+        if (leftPressed && basketX > 0) {
+            basketX -= basketSpeed;
+        } else if (rightPressed && basketX < canvas.width - basketWidth) {
+            basketX += basketSpeed;
+        }
+
+        emojiY += emojiSpeed;
+
+        if (emojiY + emojiSize > canvas.height) {
+            if (emojiX > basketX && emojiX < basketX + basketWidth) {
+                score++;
+            } else {
+                score = 0;
+            }
+
+            currentEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            emojiX = Math.random() * (canvas.width - 2 * emojiSize) + emojiSize;
+            emojiY = 0;
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+    </script>
+</body>
+
+</html>

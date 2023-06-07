@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hangman Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-miguel-%C3%A1-padri%C3%B1%C3%A1n-255379.jpg&fm=jpg');
+            /* Replace with the path to your background image */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            width: 500px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Change the alpha value to adjust the transparency */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            /* Center the card content */
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        p {
+            margin-bottom: 10px;
+        }
+        
+        #word-display {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        #letter-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        #guess-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hangman Game</h1>
+        <br>
+        <p>Guess the word:</p>
+        <div id="word-display"></div>
+        <br>
+        <input type="text" id="letter-input">
+        <button id="guess-btn">Guess</button>
+        <br>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        var words = ["hangman", "javascript", "programming", "computer", "openai", "game", "development"];
+        var selectedWord = words[Math.floor(Math.random() * words.length)];
+        var wordDisplay = document.getElementById("word-display");
+        var letterInput = document.getElementById("letter-input");
+        var guessButton = document.getElementById("guess-btn");
+        var resultElement = document.getElementById("result");
+
+        var guessedLetters = [];
+        var remainingGuesses = 6;
+
+        function initializeGame() {
+            wordDisplay.textContent = generateHiddenWord(selectedWord);
+            guessButton.addEventListener("click", checkGuess);
+        }
+
+        function generateHiddenWord(word) {
+            var hiddenWord = "";
+            for (var i = 0; i < word.length; i++) {
+                if (guessedLetters.includes(word[i])) {
+                    hiddenWord += word[i];
+                } else {
+                    hiddenWord += "_";
+                }
+                hiddenWord += " ";
+            }
+            return hiddenWord.trim();
+        }
+
+        function checkGuess() {
+            var letter = letterInput.value.toLowerCase();
+
+            if (letter.length !== 1 || !/[a-z]/.test(letter)) {
+                resultElement.textContent = "Please enter a single letter.";
+                return;
+            }
+
+            if (guessedLetters.includes(letter)) {
+                resultElement.textContent = "You already guessed that letter.";
+                return;
+            }
+
+            guessedLetters.push(letter);
+
+            if (selectedWord.includes(letter)) {
+                wordDisplay.textContent = generateHiddenWord(selectedWord);
+                if (!wordDisplay.textContent.includes("_")) {
+                    resultElement.textContent = "Congratulations! You guessed the word correctly.";
+                    guessButton.disabled = true;
+                    letterInput.disabled = true;
+                } else {
+                    resultElement.textContent = "Correct guess! Keep going.";
+                }
+            } else {
+                remainingGuesses--;
+                resultElement.textContent = "Incorrect guess. " + remainingGuesses + " guesses remaining.";
+
+                if (remainingGuesses === 0) {
+                    resultElement.textContent = "Game over! You ran out of guesses.";
+                    guessButton.disabled = true;
+                    letterInput.disabled = true;
+                }
+            }
+
+            letterInput.value = "";
+        }
+
+        initializeGame();
+    </script>
+</body>
+
+</html>
